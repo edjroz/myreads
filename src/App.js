@@ -1,16 +1,13 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+
 import * as BooksAPI from './BooksAPI';
 import { BookList, Search } from './components';
-// import BookList from './BookList';
-// import Search from './Search';
 import './App.css';
 
-// TODO: get all books from server
 class BooksApp extends React.Component {
   state = {
     books: [],
-    showSearchPage: false,
   };
   componentDidMount() {
     return BooksAPI.getAll().then((books) => {

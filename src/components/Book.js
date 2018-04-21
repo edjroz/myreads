@@ -1,13 +1,28 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
+const defaultImage =
+  'https://rafver.is/wp-content/uploads/2016/05/no-image.jpg';
+
 class Book extends React.Component {
   static propTypes = {
-    book: propTypes.object.isRequired,
+    id: propTypes.string.isRequired,
+    title: propTypes.string.isRequired,
     onChangeBookShelf: propTypes.func.isRequired,
+    authors: propTypes.array,
+    shelf: propTypes.string,
+    thumbnail: propTypes.string,
   };
+
   render() {
-    const { onChangeBookShelf, book } = this.props;
+    const {
+      id,
+      title,
+      authors,
+      shelf,
+      thumbnail,
+      onChangeBookShelf,
+    } = this.props;
     return (
       <div className="book">
         <div className="book-top">
@@ -16,15 +31,15 @@ class Book extends React.Component {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: `url(${book.imageLinks.thumbnail})`,
+              backgroundImage: `url("${thumbnail || defaultImage}")`,
             }}
           />
           <div className="book-shelf-changer">
             <select
-              value={book.shelf}
+              value={shelf}
               onChange={(e) => {
                 if (onChangeBookShelf) {
-                  onChangeBookShelf(book.id, e.target.value);
+                  onChangeBookShelf(id, e.target.value);
                 }
               }}
             >
@@ -38,11 +53,10 @@ class Book extends React.Component {
             </select>
           </div>
         </div>
-        <div className="book-title">{book.title}</div>
+        <div className="book-title">{title}</div>
         <div className="book-authors">
-        {(book.authors || []).map((author, idx) => 
-          <div key={idx}>{author}</div>
-        )}</div>
+          {(authors || []).map((author, idx) => <div key={idx}>{author}</div>)}
+        </div>
       </div>
     );
   }
