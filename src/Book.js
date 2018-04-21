@@ -3,9 +3,9 @@ import propTypes from 'prop-types';
 
 class Book extends React.Component {
   static propTypes = {
-    books: propTypes.object.isRequired,
+    book: propTypes.object.isRequired,
     onChangeBookShelf: propTypes.func.isRequired,
-  }
+  };
   render() {
     const { onChangeBookShelf, book } = this.props;
     return (
@@ -39,10 +39,9 @@ class Book extends React.Component {
           </div>
         </div>
         <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.author}</div>
+        <div className="book-authors">{book.authors.join(', ')}</div>
       </div>
     );
   }
 }
-
 export default Book;
