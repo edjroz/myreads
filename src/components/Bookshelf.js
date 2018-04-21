@@ -6,7 +6,7 @@ class Bookshelf extends React.Component {
   static propTypes = {
     books: propTypes.array.isRequired,
     onChangeBookShelf: propTypes.func.isRequired,
-  }
+  };
   render() {
     return (
       <div className="bookshelf">
@@ -17,7 +17,11 @@ class Bookshelf extends React.Component {
               return (
                 <li key={book.title}>
                   <Book
-                    book={book}
+                    id={book.id}
+                    title={book.title}
+                    authors={book.authors}
+                    thumbnail={(book.imageLinks || {}).thumbnail}
+                    shelf={book.shelf}
                     onChangeBookShelf={this.props.onChangeBookShelf}
                   />
                 </li>

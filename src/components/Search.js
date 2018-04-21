@@ -3,55 +3,54 @@ import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import Book from './Book';
-import * as BookAPI from './BooksAPI';
+import * as BookAPI from '../BooksAPI';
 
 class Search extends React.Component {
-  static propTypes ={
+  static propTypes = {
     books: propTypes.array.isRequired,
-    onChangeBookShelf: propTypes.func.isRequired
-  }
+    onChangeBookShelf: propTypes.func.isRequired,
+  };
   state = {
     searchResult: [],
     error: null,
   };
 
   search = (query) => {
-    if (query){
-    BookAPI.search(query).then((books) => {
-      console.log(query);
-      if (!Array.isArray(books)) {
+    if (query) {
+      BookAPI.search(query).then((books) => {
+        if (!Array.isArray(books)) {
+          this.setState({
+            searchResult: [],
+          });
+          return;
+        }
         this.setState({
-          searchResult: [],
-        });
-        return;
-      }
-      this.setState({
-        searchResult: books.map((book) => {
-          const bookFounded = this.props.books.find((b) => b.id === book.id)
-          if (bookFounded){ book.shelf = bookFounded.shelf
-          }
-          else {
-            book.shelf = 'none'
-          }
+          searchResult: books.map((book) => {
+            const bookFounded = this.props.books.find((b) => b.id === book.id);
+            if (bookFounded) {
+              book.shelf = bookFounded.shelf;
+            } else {
+              book.shelf = 'none';
+            }
 
-          return book;
-        }),
+            return book;
+          }),
+        });
       });
-    });
-  }
+    }
   };
   onChangeBookShelf = (bookId, shelf) => {
-    const found = this.state.searchResult.find(b => bookId === b.id)
-    this.setState(state => ({
-      searchResult: state.searchResult.map(b => {
+    const found = this.state.searchResult.find((b) => bookId === b.id);
+    this.setState((state) => ({
+      searchResult: state.searchResult.map((b) => {
         if (b.id === bookId) {
-          b.shelf = shelf
+          b.shelf = shelf;
         }
-        return b
-      })
-    }))
-    this.props.onChangeBookShelf(found, shelf)
-  }
+        return b;
+      }),
+    }));
+    this.props.onChangeBookShelf(found, shelf);
+  };
   componentDidMount() {
     document.querySelector('#search').focus();
   }
@@ -68,7 +67,8 @@ class Search extends React.Component {
               type="text"
               placeholder="Search by title or author"
               onChange={(e) => {
-                this.search(e.target.value)}}
+                this.search(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -78,7 +78,11 @@ class Search extends React.Component {
               this.state.searchResult.map((book, index) => (
                 <li key={index}>
                   <Book
-                    book={book}
+                    id={book.id}
+                    title={book.title}
+                    authors={book.authors}
+                    thumbnail={(book.imageLinks || {}).thumbnail}
+                    shelf={book.shelf}
                     onChangeBookShelf={this.onChangeBookShelf}
                   />
                 </li>
