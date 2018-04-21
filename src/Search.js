@@ -6,6 +6,10 @@ import Book from './Book';
 import * as BookAPI from './BooksAPI';
 
 class Search extends React.Component {
+  static propTypes ={
+    books: propTypes.array.isRequired,
+    onChangeBookShelf: propTypes.func.isRequired
+  }
   state = {
     searchResult: [],
     error: null,
