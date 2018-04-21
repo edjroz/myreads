@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
-import BookList from './BookList';
-import Search from './Search';
+import { BookList, Search } from './components';
+// import BookList from './BookList';
+// import Search from './Search';
 import './App.css';
 
 // TODO: get all books from server

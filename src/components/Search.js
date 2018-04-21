@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import Book from './Book';
-import * as BookAPI from './BooksAPI';
+import * as BookAPI from '../BooksAPI';
 
 class Search extends React.Component {
   static propTypes ={
@@ -18,7 +18,6 @@ class Search extends React.Component {
   search = (query) => {
     if (query){
     BookAPI.search(query).then((books) => {
-      console.log(query);
       if (!Array.isArray(books)) {
         this.setState({
           searchResult: [],
